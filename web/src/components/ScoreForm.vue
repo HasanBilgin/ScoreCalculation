@@ -10,19 +10,17 @@
       <div class="col-12 form-group">
         <label class="col-form-label col-form-label-lg">Kimlik Numarası <span class="text-danger">*</span></label>
         <input type="text" v-model.trim="$v.identityNo.$model" :class="{'is-invalid': validationStatus($v.identityNo)}"
-               class="form-control form-control-lg">
-        <div v-if="!$v.identityNo.required" class="invalid-feedback">11 haneli Kimlik numarası zorunludur</div>
+               class="form-control form-control-lg" @keypress="onlyNumber" maxlength="10">
+        <div v-if="!$v.identityNo.required" class="invalid-feedback">Kimlik numarası zorunludur</div>
         <div v-if="!$v.identityNo.minLength" class="invalid-feedback">Girilen kimlik numarası hatalı</div>
-        <div v-if="!$v.identityNo.maxLength" class="invalid-feedback">Girilen kimlik numarası hatalı</div>
       </div>
       <div class="col-12 form-group">
         <label class="col-form-label col-form-label-lg">Telefon Numarası <span class="text-danger">*</span></label>
         <input type="text" v-model.trim="$v.phoneNumber.$model"
                :class="{'is-invalid': validationStatus($v.phoneNumber)}"
-               class="form-control form-control-lg">
-        <div v-if="!$v.phoneNumber.required" class="invalid-feedback">11 haneli telefon numarası zorunludur</div>
+               class="form-control form-control-lg" @keypress="onlyNumber" maxlength="10">
+        <div v-if="!$v.phoneNumber.required" class="invalid-feedback">Telefon numarası zorunludur</div>
         <div v-if="!$v.phoneNumber.minLength" class="invalid-feedback">Girilen telefon numarası hatalı</div>
-        <div v-if="!$v.phoneNumber.maxLength" class="invalid-feedback">Girilen telefon numarası hatalı</div>
       </div>
       <div class="col-12 form-group">
         <label class="col-form-label col-form-label-lg">Aylık gelir dilimi <span class="text-danger">*</span></label>
@@ -49,7 +47,7 @@
   </form>
 </template>
 <script>
-import {required, minLength, maxLength} from 'vuelidate/lib/validators'
+import {required, minLength} from 'vuelidate/lib/validators'
 import cityList from '@/json/city.json'
 import incomeTrancheList from '@/json/incomeTranche.json'
 import {post} from '@/common/api-services'
@@ -70,8 +68,8 @@ export default {
 
   validations: {
     fullName: {required},
-    identityNo: {required, minLength: minLength(11), maxLength: maxLength(11)},
-    phoneNumber: {required, minLength: minLength(10), maxLength: maxLength(10)},
+    identityNo: {required, minLength: minLength(11)},
+    phoneNumber: {required, minLength: minLength(10)},
     incomeTranche: {required},
     city: {required},
   },
@@ -109,9 +107,15 @@ export default {
           .catch(error => {
             console.log(error);
           })
-          // .finally(() => (this.inProgress = false));
+      // .finally(() => (this.inProgress = false));
       // this.$v.$reset();
       // this.resetData();
+    },
+    onlyNumber ($event) {
+      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
+        $event.preventDefault();
+      }
     }
   }
 }
