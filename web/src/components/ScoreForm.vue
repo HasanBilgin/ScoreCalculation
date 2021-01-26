@@ -29,7 +29,7 @@
         <select v-model.trim="$v.incomeTranche.$model" :class="{'is-invalid': validationStatus($v.incomeTranche)}"
                 class="form-control form-control-lg">
           <option disabled value="">Aylık gelir dilimi seçiniz</option>
-          <option :value="c.value" :key="c.key" v-for="c in incomeTrancheList">{{ c.value }}</option>
+          <option :value="c.value" :key="c.text" v-for="c in incomeTrancheList">{{ c.text }}</option>
         </select>
         <div v-if="!$v.incomeTranche.required" class="invalid-feedback">Aylık gelir dilimi seçimi zorunludur.</div>
       </div>
@@ -38,7 +38,7 @@
         <select v-model.trim="$v.city.$model" :class="{'is-invalid': validationStatus($v.city)}"
                 class="form-control form-control-lg">
           <option disabled value="">İkamet ettiği ili seçiniz</option>
-          <option :value="c.value" :key="c.key" v-for="c in city">{{ c.value }}</option>
+          <option :value="c.value" :key="c.text" v-for="c in cityList">{{ c.text }}</option>
         </select>
         <div v-if="!$v.city.required" class="invalid-feedback">İkamet ettiği il seçimi zorunludur.</div>
       </div>
@@ -52,6 +52,7 @@
 import {required, minLength, maxLength} from 'vuelidate/lib/validators'
 import cityList from '@/json/city.json'
 import incomeTrancheList from '@/json/incomeTranche.json'
+import {post} from '@/common/api-services'
 
 export default {
   name: 'ScoreForm',
@@ -95,9 +96,22 @@ export default {
       this.$v.$touch();
       if (this.$v.$pending || this.$v.$error) return;
 
-      alert('Data Submit');
-      this.$v.$reset();
-      this.resetData();
+      post('insert-score', {
+        fullName: this.fullName,
+        identityNo: this.identityNo,
+        phoneNumber: this.phoneNumber,
+        incomeTranche: this.incomeTranche,
+        city: this.city
+      }).then(response => {
+        console.log(response);
+        this.score = response.data.score;
+      })
+          .catch(error => {
+            console.log(error);
+          })
+          // .finally(() => (this.inProgress = false));
+      // this.$v.$reset();
+      // this.resetData();
     }
   }
 }
