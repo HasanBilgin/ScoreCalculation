@@ -35,6 +35,6 @@ export default {
   color: #2c3e50;
 }
 .vue-bg {
-  background: #ff9e8d;
+  background: #C83E4D;
 }
 </style>

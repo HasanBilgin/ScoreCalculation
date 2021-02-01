@@ -1,0 +1,8 @@
+com\hasan\bilgin\scorecalculation\ScorecalculationApplication.class
+com\hasan\bilgin\scorecalculation\service\SmsService.class
+com\hasan\bilgin\scorecalculation\repository\SmsRepository.class
+com\hasan\bilgin\scorecalculation\model\Sms.class
+com\hasan\bilgin\scorecalculation\repository\PersonRepository.class
+com\hasan\bilgin\scorecalculation\model\Person.class
+com\hasan\bilgin\scorecalculation\controller\ScoreCalculationController.class
+com\hasan\bilgin\scorecalculation\service\ScoreService.class

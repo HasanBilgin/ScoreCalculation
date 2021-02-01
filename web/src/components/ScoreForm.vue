@@ -10,7 +10,7 @@
       <div class="col-12 form-group">
         <label class="col-form-label col-form-label-lg">Kimlik Numarası <span class="text-danger">*</span></label>
         <input type="text" v-model.trim="$v.identityNo.$model" :class="{'is-invalid': validationStatus($v.identityNo)}"
-               class="form-control form-control-lg" @keypress="onlyNumber" maxlength="10">
+               class="form-control form-control-lg" @keypress="onlyNumber" maxlength="11">
         <div v-if="!$v.identityNo.required" class="invalid-feedback">Kimlik numarası zorunludur</div>
         <div v-if="!$v.identityNo.minLength" class="invalid-feedback">Girilen kimlik numarası hatalı</div>
       </div>
@@ -47,7 +47,7 @@
   </form>
 </template>
 <script>
-import {required, minLength} from 'vuelidate/lib/validators'
+import {required, between} from 'vuelidate/lib/validators'
 import cityList from '@/json/city.json'
 import incomeTrancheList from '@/json/incomeTranche.json'
 import {post} from '@/common/api-services'
@@ -68,8 +68,8 @@ export default {
 
   validations: {
     fullName: {required},
-    identityNo: {required, minLength: minLength(11)},
-    phoneNumber: {required, minLength: minLength(10)},
+    identityNo: {required, between: between(10000000000, 99999999999)},
+    phoneNumber: {required, between: between(1000000000, 9999999999)},
     incomeTranche: {required},
     city: {required},
   },
@@ -81,8 +81,9 @@ export default {
       this.fullName = '';
       this.identityNo = '';
       this.phoneNumber = '';
-      this.city = null;
-      this.incomeTranche = null;
+      this.city = [];
+      this.incomeTranche = [];
+      this.score = 0;
     },
 
     validationStatus: function (validation) {
@@ -103,15 +104,19 @@ export default {
       }).then(response => {
         console.log(response);
         this.score = response.data.score;
+        if (response.data.errorMessage !== null)
+          this.$alert(response.data.errorMessage, "Hata", "error")
+        else
+          this.$alert("Skorunuz : " + this.score, "Skor Hesaplama Sistemi", "success")
       })
           .catch(error => {
             console.log(error);
+            this.$error("S")
           })
-      // .finally(() => (this.inProgress = false));
-      // this.$v.$reset();
-      // this.resetData();
+      this.$v.$reset();
+      this.resetData();
     },
-    onlyNumber ($event) {
+    onlyNumber($event) {
       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
       if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
         $event.preventDefault();
@@ -122,7 +127,7 @@ export default {
 </script>
 <style>
 .btn-vue {
-  background: #ff9e8d;
+  background: #C83E4D;
   color: black;
   font-weight: bold;
 }
