@@ -9,8 +9,50 @@
     <img align="center" src="https://miro.medium.com/max/2800/1*y5YLuOKO5XM7MOzve6XsDQ.png" width=100px />
 </div>
 
-##Kurulum
+## Kurulum
 <hr/>
+
+### Kullanıcı Arayüzü Kurulum
+Kullanıcı arayüzünün çalıştırılabilmesi için ekteki scriptlerin sırasıyla çalıştırılması yeterlidir.
+```
+cd ScoreCalculation/web
+```
+```
+npm install
+```
+```
+npm run serve
+```
+### Backend Kurulum
+Backend servislerinin çalıştırılabilmesi için ekteki scriptlerin sırasıyla çalıştırılması yeterlidir.
+```
+cd ScoreCalculation
+```
+```
+mvn clean install
+```
+```
+mvn clan install (Maven kurulu değilse yukarıdaki script yerine bu script çalıştırılmalıdır)
+```
+```
+mvn spring-boot:run
+```
+```
+mvnw spring-boot:run (Maven kurulu değilse yukarıdaki script yerine bu script çalıştırılmalıdır)
+```
+### Veri tabanı kurulumu
+```
+cd ScoreCalculation
+```
+```
+docker-compose up -d
+```
+
+Yukarıdaki adımlar tamamlandıktan sonra arayüze aşağoıdaki adresten erişilebilir.
+* http://localhost:8080/
+
+MongoDB veritabanı sunucu port bilgileri  aşağıdaki gibidir.
+* localhost:27017
 
 ## Skor Hesaplama Kullanıcı Arayüzü
 <hr/>
@@ -20,6 +62,17 @@
 <hr/>
 <img align="center" src="web/frontend_score.png" width="400px" height="400px"/>
 
-| METHOD | ENDPOINT | DESCRIPTION |
-| ------ | -------- | ----------- |
-| **POST** | **/insert-score** | Müşteri Skor Hesaplama Metodu
+### Müşteri Skor Hesaplama Backend Servis Testi
+
+* Method : POST
+* URL: localhost:8081/insert-score
+* Body : 
+```
+{
+    "fullName": "Hasan Bilgin",
+    "identityNo": "11111111111",
+    "phoneNumber": "2222222222",
+    "incomeTranche": "2000",
+    "city": "34"
+}
+```
