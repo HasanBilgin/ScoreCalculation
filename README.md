@@ -13,7 +13,7 @@
 
 ## Skor Hesaplama Önyüz
 <hr/>
-<img align="center" src="web/frontend.png" width="477" height="948"/>
+<img align="center" src="web/frontend.png" width="400px" height="500px"/>
 
 ## Skor Hesaplama Sonucu
 <hr/>
