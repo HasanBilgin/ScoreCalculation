@@ -17,4 +17,4 @@
 
 ## Skor Hesaplama Sonucu
 <hr/>
-<img align="center" src="web/frontend_score.png" width="477" height="948"/>
+<img align="center" src="web/frontend_score.png" width="400px" height="400px"/>
