@@ -108,13 +108,16 @@ export default {
           this.$alert(response.data.errorMessage, "Hata", "error")
         else
           this.$alert("Skorunuz : " + this.score, "Skor Hesaplama Sistemi", "success")
+        this.$v.$reset();
+        this.resetData();
       })
           .catch(error => {
             console.log(error);
-            this.$error("S")
+            this.$alert("Skor hesaplamada hata", "Hata", "error")
+            this.$v.$reset();
+            this.resetData();
           })
-      this.$v.$reset();
-      this.resetData();
+
     },
     onlyNumber($event) {
       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
